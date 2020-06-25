@@ -117,8 +117,11 @@ namespace Martin.Utils
                     //换行符判断 13 \r 10 \n
                     if (temp == 13 || temp == 10)
                     {
-                        if (temp == 13 && this._fileStreamReader.ReadByte() == 10)
+                        int next = this._fileStreamReader.ReadByte();
+                        if (temp == 13 && next == 10)
                             this._fileStreamPos += 1;
+                        else if (temp == 13 && next == 0 && this._fileStreamReader.ReadByte() == 10 && this._fileStreamReader.ReadByte() == 0)
+                            this._fileStreamPos += 3;
                         break;
                     }
                     tempBytes.Add((byte)temp);
